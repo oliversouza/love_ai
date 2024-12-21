@@ -32,6 +32,19 @@ body {
     }
 }
 
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #04667A;
+    border-radius: 7px;
+}
+
+.w-100{
+    width: 50% !important;;
+}
 
 h1{
     color: #3996FA;
