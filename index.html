@@ -87,22 +87,56 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const startDate = new Date('2024-10-18');
+    
         const updateCounter = () => {
             const now = new Date();
-            const difference = now - startDate;
-            const years = Math.floor(difference / (1000 * 60 * 60 * 24 * 365));
-            const months = Math.floor(difference / (1000 * 60 * 60 * 24 * 30)) % 12;
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24)) % 30;
-            const hours = Math.floor(difference / (1000 * 60 * 60)) % 24;
-
-            document.getElementById('years').textContent = `0${years}`;
-            document.getElementById('months').textContent = `0${months}`;
-            document.getElementById('days').textContent = `0${days}`;
-            document.getElementById('hours').textContent = `0${hours}`;
+    
+            // Calculando os anos e meses com base nas diferenças de datas
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+    
+            // Corrige se o mês atual ainda não completou o mês de início
+            if (now.getDate() < startDate.getDate()) {
+                months--;
+            }
+    
+            // Ajustando os meses para valores positivos e anos
+            if (months < 0) {
+                months += 12;
+                years--;
+            }
+    
+            // Calculando a diferença exata em dias
+            const adjustedStartDate = new Date(startDate);
+            adjustedStartDate.setFullYear(now.getFullYear());
+            adjustedStartDate.setMonth(now.getMonth());
+    
+            // Corrigindo a diferença de dias de forma correta
+            const diffInTime = now - adjustedStartDate;
+            let days = Math.floor(diffInTime / (1000 * 60 * 60 * 24));
+    
+            // Caso a data de hoje ainda não tenha alcançado o dia de início, ajustamos os dias
+            if (now.getDate() < startDate.getDate()) {
+                const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                const daysInLastMonth = lastMonth.getDate();
+                days = daysInLastMonth - startDate.getDate() + now.getDate();
+            }
+    
+            // Calculando as horas
+            const hours = now.getHours();
+    
+            // Atualiza o contador no HTML com o formato correto (sem zero à esquerda)
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
         };
-
+    
         setInterval(updateCounter, 1000);
         updateCounter();
     </script>
+    
+    
+    
 </body>
 </html>
